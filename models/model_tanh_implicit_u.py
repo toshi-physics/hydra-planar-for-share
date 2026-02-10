@@ -157,10 +157,9 @@ def main():
     if not os.path.exists(savedir+'/data/'):
         os.makedirs(savedir+'/data/')
 
+	inv_umatrix = invert_disp_matrix(k_grids, mu, lambd, xi)
+	
     for t in tqdm(range(n_steps)):
-        
-        inv_umatrix = invert_disp_matrix(k_grids, mu, lambd)
-
         if t % dn_dump == 0:
             np.savetxt(savedir+'/data/'+'c.csv.'+ str(t//dn_dump), c.get_real(), delimiter=',')
             np.savetxt(savedir+'/data/'+'Qxx.csv.'+ str(t//dn_dump), Qxx.get_real(), delimiter=',')
@@ -225,7 +224,7 @@ def set_aster(fieldxx, fieldxy, size, dr, nem_length):
     fieldxy.set_real(Qxy)
     fieldxy.synchronize_momentum()
 
-def invert_disp_matrix(k_grids, mu, lambd):
+def invert_disp_matrix(k_grids, mu, lambd, xi):
     qx = k_grids[0]
     qy = k_grids[1]
     u_matrix = np.array([[(lambd+2*mu)*qx**2 + mu*qy**2 + xi, (mu+lambd)*qx*qy], [(mu+lambd)*qx*qy, (2*mu+lambd)*qy**2 + mu*qx**2 + xi]]) #this has shape [2_row, 2_col, nx, ny]
