@@ -228,7 +228,7 @@ def set_aster(fieldxx, fieldxy, size, dr, nem_length):
 def invert_disp_matrix(k_grids, mu, lambd):
     qx = k_grids[0]
     qy = k_grids[1]
-    u_matrix = np.array([[(lambd+2*mu)*qx**2 + mu*qy**2 - xi, (mu+lambd)*qx*qy], [(mu+lambd)*qx*qy, (2*mu+lambd)*qy**2 + mu*qx**2 - xi]]) #this has shape [2_row, 2_col, nx, ny]
+    u_matrix = np.array([[(lambd+2*mu)*qx**2 + mu*qy**2 + xi, (mu+lambd)*qx*qy], [(mu+lambd)*qx*qy, (2*mu+lambd)*qy**2 + mu*qx**2 + xi]]) #this has shape [2_row, 2_col, nx, ny]
     u_matrix = np.transpose(u_matrix, (2, 3, 0, 1)) #this has the shape [nx, ny, 2_row, 2_col]
     inv_umatrix = np.linalg.inv(u_matrix) #invert 2x2 matrix for all qx, qy
     return inv_umatrix
